@@ -1,7 +1,5 @@
 package com.example.meetingscheduler.UI.create;
 
-import android.util.Log;
-
 import androidx.lifecycle.ViewModel;
 
 import com.example.meetingscheduler.data.model.Meeting;
@@ -12,32 +10,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 public class NewMeetingViewModel extends ViewModel {
     private Meeting mCurrentMeeting = new Meeting();
-    private MultiMap<String, Meeting> newlyCreatedMeetings = new MultiMap<>();
-    //attach viewmodel to fragment lifecycle
+    private MultiMap<String, Meeting> mMeetingsRepo = new MultiMap<>();
 
     public boolean isSlotAvailable(){
         String date = mCurrentMeeting.getDate();
-        //Log.d("durga", "date=" + date);
-        //Log.d("durga", "MultiMap slot check=" + newlyCreatedMeetings.toString());
-        if (newlyCreatedMeetings.containsKey(date)){
-            //Log.d("durga", "contains key");
+        if (mMeetingsRepo.containsKey(date)){
             int start = Integer.parseInt(mCurrentMeeting.getStartTime());
-            //Log.d("durga", "start=" + start);
             int end = Integer.parseInt(mCurrentMeeting.getEndTime());
-            //Log.d("durga", "end=" + end);
-            ArrayList<Meeting> a = newlyCreatedMeetings.get(date);
+            ArrayList<Meeting> a = mMeetingsRepo.get(date);
             for (int i=0; i<a.size();i++){
                 Meeting m = a.get(i);
                 int s = Integer.parseInt(m.getStartTime());
-                //Log.d("durga", "s=" + s);
                 int e = Integer.parseInt(m.getEndTime());
-                //Log.d("durga", "e=" + e);
                 if ((start>=s && start<=e) || (end>=s && end<=e)){
-                    //Log.d("durga", "return false");
                     return false;
                 }
             }
@@ -47,13 +35,11 @@ public class NewMeetingViewModel extends ViewModel {
 
     public boolean isDateValid(){
         String d = mCurrentMeeting.getDate();
-        //Log.d("durga", "curr date=" + d);
         SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
         Date dt = null;
         try {
             dt = f.parse(d);
         } catch (ParseException e) {
-            //e.printStackTrace();
             //Log.d("durga", "=ParseException=");
         }
         Calendar cal = Calendar.getInstance();
@@ -65,7 +51,6 @@ public class NewMeetingViewModel extends ViewModel {
         cal.set(Calendar.MILLISECOND, 0);
         today = cal.getTime();
         if (today.after(dt)){
-            //Log.d("durga", "today.after(dt)");
             return false;
         }
         else
@@ -73,8 +58,7 @@ public class NewMeetingViewModel extends ViewModel {
     }
 
     public void createMeeting(){
-        newlyCreatedMeetings.put(mCurrentMeeting.getDate(), mCurrentMeeting.clone());
-        //Log.d("durga", "MultiMap create=" + newlyCreatedMeetings.toString());
+        mMeetingsRepo.put(mCurrentMeeting.getDate(), mCurrentMeeting.clone());
     }
 
     public Meeting getMeeting(){

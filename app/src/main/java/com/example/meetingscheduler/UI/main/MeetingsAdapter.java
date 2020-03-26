@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MeetingsAdapter extends RecyclerView.Adapter<MeetingsAdapter.MeetingHolder>{
 
-    List<Meeting> mData;//todo use live data object
+    List<Meeting> mData;
     MeetingsAdapter(List<Meeting> list){
         mData = list;
     }
@@ -23,7 +23,6 @@ public class MeetingsAdapter extends RecyclerView.Adapter<MeetingsAdapter.Meetin
     @NonNull
     @Override
     public MeetingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = View.inflate(parent.getContext(), R.layout.list_item, parent);
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new MeetingHolder(view);
     }
@@ -39,7 +38,6 @@ public class MeetingsAdapter extends RecyclerView.Adapter<MeetingsAdapter.Meetin
     }
 
     class MeetingHolder extends RecyclerView.ViewHolder{
-        //todo use separate view class
         private TextView tvTimePeriod;
         private TextView tvDescription;
 

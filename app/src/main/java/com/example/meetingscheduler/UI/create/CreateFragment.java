@@ -83,10 +83,8 @@ public class CreateFragment extends Fragment implements ICreateMeetingView{
 
     private void bindDataToView(Bundle savedInstanceState){
         if (savedInstanceState!=null){
-            Log.d("durga", "savedInstanceState not null");
             String dt = viewModel.getDate();
             if (dt!=null){
-                Log.d("durga", "dt not null");
                 mDateView.setText("Date: " + dt);
                 updateButtonState();
             }
@@ -130,9 +128,9 @@ public class CreateFragment extends Fragment implements ICreateMeetingView{
 
         // Get Current Date
         final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 new DatePickerDialog.OnDateSetListener() {
@@ -142,7 +140,7 @@ public class CreateFragment extends Fragment implements ICreateMeetingView{
                         mDateView.setText("Date: " + viewModel.getDate());
                         updateButtonState();
                     }
-                }, mYear, mMonth, mDay);
+                }, year, month, day);
         datePickerDialog.show();
     }
 
@@ -152,8 +150,8 @@ public class CreateFragment extends Fragment implements ICreateMeetingView{
 
         // Get Current Time
         final Calendar c = Calendar.getInstance();
-        int mHour = c.get(Calendar.HOUR_OF_DAY);
-        int mMinute = c.get(Calendar.MINUTE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
         // Launch Time Picker Dialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
@@ -164,7 +162,7 @@ public class CreateFragment extends Fragment implements ICreateMeetingView{
                         viewModel.setStartTime(hourOfDay + "" + m);
                         mStartTime.setText("Start: " + hourOfDay + ":" + m);//viewModel.getStartTime()
                     }
-                }, mHour, mMinute, true);
+                }, hour, minute, true);
         timePickerDialog.show();
     }
 
@@ -173,8 +171,8 @@ public class CreateFragment extends Fragment implements ICreateMeetingView{
 
         // Get Current Time
         final Calendar c = Calendar.getInstance();
-        int mHour = c.get(Calendar.HOUR_OF_DAY);
-        int mMinute = c.get(Calendar.MINUTE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                 new TimePickerDialog.OnTimeSetListener() {
@@ -184,14 +182,13 @@ public class CreateFragment extends Fragment implements ICreateMeetingView{
                         viewModel.setEndTime(hourOfDay + "" + m);
                         mEndTime.setText("End: " + hourOfDay + ":" + m);
                     }
-                }, mHour, mMinute, true);
+                }, hour, minute, true);
         timePickerDialog.show();
     }
 
     private void onSubmit(){
         if (viewModel.isSlotAvailable()){
             viewModel.createMeeting();
-            //viewModel.setMeeting(null);//todo clear data
             Toast.makeText(getContext(), "Meeting created.", Toast.LENGTH_SHORT).show();
         }
         else {

@@ -27,7 +27,6 @@ public enum Navigator implements INavigator {
 
         Fragment fragment = manager.findFragmentByTag(TAG);
         if (fragment==null){
-            //Log.d("durga", "fragment null");
             fragment = new ListFragment();
         }
 

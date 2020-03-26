@@ -44,13 +44,7 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
     private RecyclerView mMeetingsListView;
     private ProgressBar progressBar;
 
-    //private IMeetingsView mMeetingsView;
     private MeetingsViewModel viewModel;
-    //private CompositeDisposable mDisposable;
-    //private boolean orientationLand = false;
-
-    //todo listen to internet connectivity
-    //fragment change layout on rotation
 
     public ListFragment() {
         // Required empty public constructor
@@ -71,7 +65,6 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
         return root;
     }
 
-    //fragment on back - lose data viewmodel
     private void bindDataToView(){
         String dt = viewModel.getDate().getValue();
         if (dt !=null && !dt.isEmpty()){
@@ -86,12 +79,10 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
     @Override
     public void onResume() {
         super.onResume();
-        //mDisposable = new CompositeDisposable();
         fetchData();
     }
 
     private void fetchData(){
-        //get data
         viewModel.getDate().observe(this, dateObserver);
         viewModel.getMeetingsList().observe(this, listObserver);
     }
@@ -100,7 +91,6 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
     private Observer<String> dateObserver = new Observer<String>() {
         @Override
         public void onChanged(@Nullable final String newDate) {
-            // Update the UI
             showHeader(newDate);
         }
     };
@@ -161,9 +151,7 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
 
     @Override
     public void showHeader(String date) {
-        //Log.d("durga", "show header");
         if(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE) {
-            //Log.d("durga", "orientation land");
             SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
             Date d = null;
             try {
@@ -173,7 +161,6 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
                 showError("ERR...");
             }
             f.applyPattern("EEE, d MMM yyyy");
-            //Log.d("durga", "date=" + f.format(d));
             mCurrentDate.setText(f.format(d));
         }
         else
@@ -183,7 +170,6 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
     @Override
     public void showError(String message) {
         Toast.makeText(getContext(), "Err...", Toast.LENGTH_SHORT).show();
-        //Log.d("durga", e.getMessage());
         onFinishLoading();
     }
 

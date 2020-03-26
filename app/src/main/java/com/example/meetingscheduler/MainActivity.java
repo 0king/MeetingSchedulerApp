@@ -11,13 +11,6 @@ import com.example.meetingscheduler.UI.main.ListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    //todo manage fragment back stack
-    //navigation
-    //history
-    //on rotate, app killed, finish()
-    //landscape UI
-
-    //mvvm handle navigation
     private INavigator mNavigator;
 
     @Override
@@ -29,16 +22,4 @@ public class MainActivity extends AppCompatActivity {
             mNavigator.toMainScreen();
     }
 
-    @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        //mNavigator.toMainScreen();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig){
-        super.onConfigurationChanged(newConfig);
-        //Log.d("durga", "onConfigurationChanged");
-        //orientationLand = (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE);
-    }
 }

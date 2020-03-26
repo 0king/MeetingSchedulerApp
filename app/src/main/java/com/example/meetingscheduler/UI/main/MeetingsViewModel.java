@@ -23,22 +23,16 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 public class MeetingsViewModel extends ViewModel { //todo create interface
     private int dayCount = 0;
-    //private LiveData<Integer> dayCount = new MutableLiveData<>();
-    //todo expose state
     private MutableLiveData<String> date = new MutableLiveData<>();
     private StateLiveData<List<Meeting>> list = new StateLiveData<>();
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    //onViewLoaded();
-
-    //model, repo
     private MainRepo repo;
 
     public MeetingsViewModel() {
         super();
         repo = MainRepo.INSTANCE;
         updateData(Value.ZERO);
-        //Log.d("durga", "VM constructor");
     }
 
     public LiveData<String> getDate(){
@@ -51,7 +45,6 @@ public class MeetingsViewModel extends ViewModel { //todo create interface
 
     //event handling
     public void onNextClick(){
-        //Log.d("durga", "onDateChangeClick");
         if (dayCount<0){
             dayCount++;
             updateData(Value.POSITIVE);
@@ -59,7 +52,6 @@ public class MeetingsViewModel extends ViewModel { //todo create interface
     }
 
     public void onPrevClick(){
-        //Log.d("durga", "onDateChangeClick");
         dayCount--;
         updateData(Value.NEGATIVE);
     }
@@ -79,17 +71,12 @@ public class MeetingsViewModel extends ViewModel { //todo create interface
         Disposable d = repo.getMeetings(date.getValue())
                 .subscribe(
                         meetings -> {
-                            //Log.d("durga", meetings.toString());
                             //UI logic - empty list, sort the list
                             Collections.sort(meetings, new SortByDate());
-                            //list.setValue(meetings); //error
-                            //list.setValue(new Resource<>()); //no error
                             list.postSuccess(meetings);
-                            //Log.d("durga", list.getValue().toString());
                         },
                         err -> {
                             list.postError(err);
-                            //Log.d("durga", "NetErr=" + e.toString());
                         }
                 );
         disposable.add(d);
@@ -107,14 +94,7 @@ public class MeetingsViewModel extends ViewModel { //todo create interface
             String startTime1 = a.getStartTime().replace(":","");
             String startTime2 = b.getStartTime().replace(":","");
             return Integer.parseInt(startTime1) - Integer.parseInt(startTime2);
-            //Integer.getInteger(startTime1) - Integer.getInteger(startTime2)
         }
     }
 
 }
-/*Transformations.switchMap(repo.getDateFormatted(dayCount), newDate -> {
-            date.setValue(newDate);
-            Log.d("durga", "updateData=" + date.getValue());
-            return date;
-        });
-        */
