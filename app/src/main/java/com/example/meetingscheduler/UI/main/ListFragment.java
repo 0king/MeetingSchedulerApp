@@ -61,7 +61,8 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_list, container, false);
         init(root);//init UI
-        bindDataToView();
+        //bindDataToView();
+        fetchData();
         return root;
     }
 
@@ -76,15 +77,9 @@ public class ListFragment extends Fragment implements IMeetingsView, IProgressVi
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        fetchData();
-    }
-
     private void fetchData(){
-        viewModel.getDate().observe(this, dateObserver);
-        viewModel.getMeetingsList().observe(this, listObserver);
+        viewModel.getDate().observe(getViewLifecycleOwner(), dateObserver);
+        viewModel.getMeetingsList().observe(getViewLifecycleOwner(), listObserver);
     }
 
     // Create the observer which updates the UI.
